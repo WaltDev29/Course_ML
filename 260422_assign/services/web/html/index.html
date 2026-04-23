@@ -1,0 +1,291 @@
+<!doctype html>
+<html lang="ko">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>유방암 진단 인공지능 서비스</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Noto+Sans+KR:wght@400;700&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="/static/style.css" />
+  <style>
+    .random-info {
+      text-align: right;
+      margin-bottom: 10px;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <header>
+      <h1>Breast Cancer Predictor</h1>
+      <p>SVM 기반 인공지능을 활용한 유방암 자가 진단 서비스</p>
+      <div class="random-info">💡 페이지 로드 시 임의의 유효값이 자동 입력됩니다.</div>
+    </header>
+
+    <form id="predictForm">
+      <!-- 1. Mean (평균) 섹션 -->
+      <section class="input-section">
+        <h2>평균 지표 (Mean Features)</h2>
+        <div class="grid">
+          <div class="input-group">
+            <label>반지름 평균</label>
+            <input type="number" name="mean_radius" step="0.001" min="6.981" max="28.11" required
+              placeholder="6.98 ~ 28.11">
+          </div>
+          <div class="input-group">
+            <label>질감 평균</label>
+            <input type="number" name="mean_texture" step="0.001" min="9.71" max="39.28" required
+              placeholder="9.71 ~ 39.28">
+          </div>
+          <div class="input-group">
+            <label>둘레 평균</label>
+            <input type="number" name="mean_perimeter" step="0.001" min="43.79" max="188.5" required
+              placeholder="43.7 ~ 188.5">
+          </div>
+          <div class="input-group">
+            <label>면적 평균</label>
+            <input type="number" name="mean_area" step="0.1" min="143.5" max="2501.0" required
+              placeholder="143.5 ~ 2501">
+          </div>
+          <div class="input-group">
+            <label>매끄러움 평균</label>
+            <input type="number" name="mean_smoothness" step="0.001" min="0.053" max="0.163" required
+              placeholder="0.05 ~ 0.16">
+          </div>
+          <div class="input-group">
+            <label>조밀도 평균</label>
+            <input type="number" name="mean_compactness" step="0.001" min="0.019" max="0.345" required
+              placeholder="0.01 ~ 0.34">
+          </div>
+          <div class="input-group">
+            <label>오목함 평균</label>
+            <input type="number" name="mean_concavity" step="0.001" min="0.0" max="0.427" required
+              placeholder="0.0 ~ 0.42">
+          </div>
+          <div class="input-group">
+            <label>오목한 점 평균</label>
+            <input type="number" name="mean_concave_points" step="0.001" min="0.0" max="0.201" required
+              placeholder="0.0 ~ 0.20">
+          </div>
+          <div class="input-group">
+            <label>대칭성 평균</label>
+            <input type="number" name="mean_symmetry" step="0.001" min="0.106" max="0.304" required
+              placeholder="0.10 ~ 0.30">
+          </div>
+          <div class="input-group">
+            <label>프랙탈 차원 평균</label>
+            <input type="number" name="mean_fractal_dimension" step="0.001" min="0.05" max="0.097" required
+              placeholder="0.05 ~ 0.09">
+          </div>
+        </div>
+      </section>
+
+      <!-- 2. Standard Error (표준 오차) 섹션 -->
+      <section class="input-section">
+        <h2>표준 오차 지표 (SE Features)</h2>
+        <div class="grid">
+          <div class="input-group">
+            <label>반지름 표준오차</label>
+            <input type="number" name="radius_error" step="0.001" min="0.112" max="2.873" required>
+          </div>
+          <div class="input-group">
+            <label>질감 표준오차</label>
+            <input type="number" name="texture_error" step="0.001" min="0.36" max="4.885" required>
+          </div>
+          <div class="input-group">
+            <label>둘레 표준오차</label>
+            <input type="number" name="perimeter_error" step="0.001" min="0.757" max="21.98" required>
+          </div>
+          <div class="input-group">
+            <label>면적 표준오차</label>
+            <input type="number" name="area_error" step="0.001" min="6.802" max="542.2" required>
+          </div>
+          <div class="input-group">
+            <label>매끄러움 표준오차</label>
+            <input type="number" name="smoothness_error" step="0.001" min="0.002" max="0.031" required>
+          </div>
+          <div class="input-group">
+            <label>조밀도 표준오차</label>
+            <input type="number" name="compactness_error" step="0.001" min="0.002" max="0.135" required>
+          </div>
+          <div class="input-group">
+            <label>오목함 표준오차</label>
+            <input type="number" name="concavity_error" step="0.001" min="0.0" max="0.396" required>
+          </div>
+          <div class="input-group">
+            <label>오목한 점 표준오차</label>
+            <input type="number" name="concave_points_error" step="0.001" min="0.0" max="0.053" required>
+          </div>
+          <div class="input-group">
+            <label>대칭성 표준오차</label>
+            <input type="number" name="symmetry_error" step="0.001" min="0.008" max="0.079" required>
+          </div>
+          <div class="input-group">
+            <label>프랙탈 차원 표준오차</label>
+            <input type="number" name="fractal_dimension_error" step="0.001" min="0.001" max="0.03" required>
+          </div>
+        </div>
+      </section>
+
+      <!-- 3. Worst (최악값) 섹션 -->
+      <section class="input-section">
+        <h2>최악값 지표 (Worst Features)</h2>
+        <div class="grid">
+          <div class="input-group">
+            <label>반지름 최악값</label>
+            <input type="number" name="worst_radius" step="0.001" min="7.93" max="36.04" required>
+          </div>
+          <div class="input-group">
+            <label>질감 최악값</label>
+            <input type="number" name="worst_texture" step="0.001" min="12.02" max="49.54" required>
+          </div>
+          <div class="input-group">
+            <label>둘레 최악값</label>
+            <input type="number" name="worst_perimeter" step="0.001" min="50.41" max="251.2" required>
+          </div>
+          <div class="input-group">
+            <label>면적 최악값</label>
+            <input type="number" name="worst_area" step="0.1" min="185.2" max="4254.0" required>
+          </div>
+          <div class="input-group">
+            <label>매끄러움 최악값</label>
+            <input type="number" name="worst_smoothness" step="0.001" min="0.071" max="0.223" required>
+          </div>
+          <div class="input-group">
+            <label>조밀도 최악값</label>
+            <input type="number" name="worst_compactness" step="0.001" min="0.027" max="1.058" required>
+          </div>
+          <div class="input-group">
+            <label>오목함 최악값</label>
+            <input type="number" name="worst_concavity" step="0.001" min="0.0" max="1.252" required>
+          </div>
+          <div class="input-group">
+            <label>오목한 점 최악값</label>
+            <input type="number" name="worst_concave_points" step="0.001" min="0.0" max="0.291" required>
+          </div>
+          <div class="input-group">
+            <label>대칭성 최악값</label>
+            <input type="number" name="worst_symmetry" step="0.001" min="0.156" max="0.664" required>
+          </div>
+          <div class="input-group">
+            <label>프랙탈 차원 최악값</label>
+            <input type="number" name="worst_fractal_dimension" step="0.001" min="0.055" max="0.208" required>
+          </div>
+        </div>
+      </section>
+
+      <div class="action-area">
+        <button type="button" id="randomBtn" class="random-btn">🔄 랜덤 값 입력</button>
+        <button type="submit" class="predict-btn">예측하기</button>
+      </div>
+    </form>
+
+    <div id="result">
+      <div class="result-icon" id="resultIcon"></div>
+      <div class="result-text" id="resultText">분석 중...</div>
+      <div class="result-desc" id="resultDesc">잠시만 기다려 주세요.</div>
+    </div>
+  </div>
+
+  <script>
+    const form = document.getElementById('predictForm');
+    const resultDiv = document.getElementById('result');
+    const resultIcon = document.getElementById('resultIcon');
+    const resultText = document.getElementById('resultText');
+    const resultDesc = document.getElementById('resultDesc');
+
+    // 페이지 로드 시 랜덤 값 채우기 함수
+    function fillRandomValues() {
+      const inputs = form.querySelectorAll('input[type="number"]');
+      inputs.forEach(input => {
+        const min = parseFloat(input.getAttribute('min'));
+        const max = parseFloat(input.getAttribute('max'));
+        const step = parseFloat(input.getAttribute('step')) || 0.001;
+
+        if (!isNaN(min) && !isNaN(max)) {
+          // min과 max 사이의 랜덤 값 생성
+          const randomVal = Math.random() * (max - min) + min;
+          // 소수점 자리수 맞춤 (step이 0.1이면 1자리, 0.001이면 3자리 등)
+          const precision = step.toString().split(".")[1]?.length || 0;
+          input.value = randomVal.toFixed(precision);
+        }
+      });
+    }
+
+    // 초기 실행
+    window.addEventListener('DOMContentLoaded', fillRandomValues);
+
+    // 랜덤 버튼 클릭 이벤트
+    const randomBtn = document.getElementById('randomBtn');
+    randomBtn.addEventListener('click', () => {
+      fillRandomValues();
+      // 결과창이 떠있다면 숨김 (새로운 대이터 입력 시 혼동 방지)
+      resultDiv.style.display = 'none';
+      resultDiv.className = '';
+    });
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      // 결과 영역 초기화 및 표시
+      resultDiv.style.display = 'block';
+      resultDiv.className = ''; // 클래스 초기화
+      resultText.textContent = '데이터 분석 중...';
+      resultIcon.textContent = '🔄';
+      resultDesc.textContent = 'SVM 인공지능 모델이 데이터를 분석하고 있습니다.';
+
+      resultDiv.scrollIntoView({ behavior: 'smooth' });
+
+      // 데이터 가공
+      const formData = new FormData(form);
+      const data = {};
+      formData.forEach((value, key) => {
+        data[key] = parseFloat(value);
+      });
+
+      try {
+        const response = await fetch('/api/predict', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data)
+        });
+
+        const j = await response.json();
+
+        if (response.ok) {
+          const isMalignant = j.prediction === "악성";
+
+          if (isMalignant) {
+            resultDiv.className = 'malignant';
+            resultIcon.textContent = '⚠️';
+            resultText.textContent = '분석 결과: 악성 (Malignant)';
+            resultDesc.textContent = '암 세포일 가능성이 높습니다. 전문의와의 상담을 권장합니다.';
+          } else {
+            resultDiv.className = 'benign';
+            resultIcon.textContent = '✅';
+            resultText.textContent = '분석 결과: 양성 (Benign)';
+            resultDesc.textContent = '암 세포가 아닌 양성일 가능성이 매우 높습니다.';
+          }
+        } else {
+          throw new Error(j.detail || '예측 실패');
+        }
+      } catch (error) {
+        resultDiv.style.display = 'block';
+        resultDiv.style.background = '#fef2f2';
+        resultDiv.style.color = '#ef4444';
+        resultIcon.textContent = '❌';
+        resultText.textContent = '에러 발생';
+        resultDesc.textContent = error.message;
+      }
+    });
+  </script>
+</body>
+
+</html>
