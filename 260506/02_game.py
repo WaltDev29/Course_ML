@@ -14,6 +14,7 @@ while True:
     print(f"배 위치: {side_str[boat_side]}")
 
     onboarding = list(map(int, input("command: ").split()))
+    print()
 
 
 

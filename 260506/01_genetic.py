@@ -10,7 +10,7 @@ SIZE = 5  # 하나의 염색체에서 유전자 개수
 # 염색체를 클래스로 정의한다.
 class Chromosome:
     def __init__(self, g=[]):
-        self.genes = g.copy()  # 유전자는 리스트로 구현된다.
+        self.genes = g.copy()  # 염색체는 리스트로 구현된다.
         self.fitness = 0  # 적합도
         if self.genes.__len__() == 0:  # 염색체가 초기 상태이면 초기화한다.
             i = 0
@@ -95,13 +95,13 @@ while population[0].cal_fitness() < 31:
 
     # 선택과 교차 연산
     for _ in range(POPULATION_SIZE // 2):
-        c1, c2 = crossover(population);
-        new_pop.append(Chromosome(c1));
-        new_pop.append(Chromosome(c2));
+        c1, c2 = crossover(population)
+        new_pop.append(Chromosome(c1))
+        new_pop.append(Chromosome(c2))
 
     # 자식 세대가 부모 세대를 대체한다.
     # 깊은 복사를 수행한다.
-    population = new_pop.copy();
+    population = new_pop.copy()
 
     # 돌연변이 연산
     for c in population: mutate(c)
@@ -111,4 +111,4 @@ while population[0].cal_fitness() < 31:
     print("세대 번호=", count)
     print_p(population)
     count += 1
-    if count > 100: break;
+    if count > 100: break
