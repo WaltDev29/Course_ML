@@ -1,11 +1,10 @@
-def play_game(command:list[list[int]]):
+def play_game(command:list[list[int]]) -> tuple[int, int]:
     CHANCE = 20
     TOTAL = 3
     M = 0
     C = 1
     ground = [[0,0], [TOTAL, TOTAL]]
     boat_side = 1 # 0: left, 1: right
-    side_str = ["왼쪽", "오른쪽"]
 
     is_game_over = False
     is_clear = False
@@ -89,17 +88,17 @@ def play_game(command:list[list[int]]):
     fitness = 0
 
     # 왼쪽으로 이동한 사람 수
-    fitness += (ground[0][M] + ground[0][C]) * 100
+    fitness += (ground[0][M] + ground[0][C]) * 50
 
     # 이동 횟수 패널티
     fitness -= count * 3
 
     # 게임오버 패널티
     if is_game_over:
-        fitness -= 50
+        fitness -= 100
 
     # 클리어 보너스
     if is_clear:
-        fitness += 5000
+        fitness += 1000
 
     return fitness, count

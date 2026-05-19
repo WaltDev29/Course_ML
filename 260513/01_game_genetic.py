@@ -5,7 +5,7 @@ from game import play_game
 POPULATION_SIZE = 50  # 개체 집단의 크기
 TOURNAMENT_SIZE = 3  # 토너먼트 선택에서 경쟁하는 개체 수
 MUTATION_RATE = 0.1  # 돌연 변이 확률
-SIZE = 15  # 하나의 유전자에서 염색체 개수
+SIZE = 15  # 하나의 염색체에서 유전자 개수
 GENERATION = 300  # 세대 수
 
 

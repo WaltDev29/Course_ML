@@ -89,24 +89,24 @@ def play_game(command:list[list[int]]):
     fitness = 0
 
     # 왼쪽으로 이동한 사람 수
-    fitness += (ground[0][M] + ground[0][C]) * 100
+    fitness += (ground[0][M] + ground[0][C]) * 50
 
     # 이동 횟수 패널티
     fitness -= count * 3
 
     # 게임오버 패널티
     if is_game_over:
-        fitness -= 50
+        fitness -= 100
 
     # 클리어 보너스
     if is_clear:
-        fitness += 5000
+        fitness += 1000
 
     return fitness, count
 
 
 if __name__ == "__main__":
-    command = [[1, 1], [1, 0], [0, 2], [0, 1], [2, 0], [1, 1], [1, 1], [1, 1], [2, 0], [0, 1], [1, 1], [0, 2], [1, 0], [1, 1], [1, 0]]
+    command = [[0, 2], [0, 1], [0, 2], [0, 1], [2, 0], [1, 1], [2, 0], [0, 1], [0, 2], [0, 1], [0, 2], [0, 2], [2, 0], [0, 2], [1, 1]]
     fitness, count = play_game(command)
     print(f"최종 적합도: {fitness}")
     print(f"시도 횟수: {count}")
