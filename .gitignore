@@ -80,3 +80,7 @@ dmypy.json
 # MacOS
 .DS_Store
 
+# Data set
+dataset/**
+*.csv
+*.png
